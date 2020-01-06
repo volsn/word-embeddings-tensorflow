@@ -1,105 +1,82 @@
-<!doctype html>
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Статьи - {{ category_name }}</title>
 
-<html lang="en">
-<head>
-<meta charset="utf-8">
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/pure-min.css" integrity="sha384-oAOxQR6DkCoMliIh8yFnu25d7Eq/PHS21PClpwjOTeU2jRSq11vu66rf90/cZr47" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Index</title>
+    <style media="screen">
+      .centered{
+        margin: 0 auto;
+        width: 80%;
+      }
 
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-</head>
+      @media screen and (min-width: 480px) {
+          .centered{
+                margin: 0 auto;
+                width: 95%;
+              }
+       }
+    </style>
+  </head>
+  <body>
 
-<style>
-.filterDiv {
-  display: none;
-}
-.show {
-  display: block;
-}
-</style>
+    <div class="pure-menu pure-menu-horizontal">
+    <ul class="pure-menu-list">
+        <li class="pure-menu-item pure-menu-selected"><a href="{{ url_for('index') }}" class="pure-menu-link">Главная</a></li>
+        <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+            <a href="{{ url_for('articles_all') }}" id="menuLink1" class="pure-menu-link">Все статьи</a>
+            <ul class="pure-menu-children">
+                <li class="pure-menu-item"><a href="{{ url_for('articles_category', category_name='Дача') }}" class="pure-menu-link">Авто</a></li>
+                <li class="pure-menu-item"><a href="{{ url_for('articles_category', category_name='Дача') }}" class="pure-menu-link">Дача</a></li>
+                <li class="pure-menu-item"><a href="{{ url_for('articles_category', category_name='Дача') }}" class="pure-menu-link">Техника</a></li>
+                <li class="pure-menu-item"><a href="{{ url_for('articles_category', category_name='Дача') }}" class="pure-menu-link">Космос</a></li>
+                <li class="pure-menu-item"><a href="{{ url_for('articles_category', category_name='Дача') }}" class="pure-menu-link">Нацизм</a></li>
+            </ul>
+        </li>
+      </ul>
+    </div>
 
-<script type="text/javascript">
-  function filterSelection(c) {
-  var x, i;
-  x = document.getElementsByClassName("filterDiv");
-  if (c == "all") c = "";
-  for (i = 0; i < x.length; i++) {
-    w3RemoveClass(x[i], "show");
-    if (x[i].className.indexOf(c) > -1) w3AddClass(x[i], "show");
-  }
-  }
-  function w3AddClass(element, name) {
-  var i, arr1, arr2;
-  arr1 = element.className.split(" ");
-  arr2 = name.split(" ");
-  for (i = 0; i < arr2.length; i++) {
-    if (arr1.indexOf(arr2[i]) == -1) {
-      element.className += " " + arr2[i];
-    }
-  }
-  }
-  function w3RemoveClass(element, name) {
-  var i, arr1, arr2;
-  arr1 = element.className.split(" ");
-  arr2 = name.split(" ");
-  for (i = 0; i < arr2.length; i++) {
-    while (arr1.indexOf(arr2[i]) > -1) {
-      arr1.splice(arr1.indexOf(arr2[i]), 1);
-    }
-  }
-  element.className = arr1.join(" ");
-  }
-  var btnContainer = document.getElementById("myBtnContainer");
-  var btns = btnContainer.getElementsByClassName("btn");
-  for (var i = 0; i < btns.length; i++) {
-  btns[i].addEventListener("click", function() {
-    var current = document.getElementsByClassName("active");
-    current[0].className = current[0].className.replace(" active", "");
-    this.className += " active";
-  });
-  }
-</script>
+    <br/>
 
-<body>
+    <div class="centered">
+      <h3>Всего статей в выбранной категории - {{ articles_count }}</h3>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <table class="pure-table pure-table-bordered">
+      <thead>
+          <tr>
+              <th>id</th>
+              <th width="20%">Заголовок</th>
+              <th>Описание</th>
+              <th width="20%">Ссылка</th>
+          </tr>
+      </thead>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('index') }}">Главная</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('articles_all') }}">Статьи</a>
-      </li>
-    </ul>
-  </div>
-</nav>
+      <tbody>
 
-<br/>
+        {% for article in articles %}
+          <tr>
+              <td>{{ article.id }}</td>
+              <td>{{ article.header }}</td>
+              <td>{{ article.description }}</td>
+              <td><a href="{{ url_for('articles_single', id=article.id) }}">{{ article.href }}</a></td>
+          </tr>
+        {% endfor %}
 
-<div class="container">
+        <!--
+        <tr>
+            <td>1</td>
+            <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</td>
+            <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ut orci porta, egestas lorem a, blandit orci. Nunc laoreet maximus tellus non ultricies. Nunc suscipit aliquam sollicitudin. Nam eu nisl accumsan, volutpat sapien id, imperdiet nisi. Curabitur vehicula mollis gravida. Donec est enim, condimentum et convallis vel, tristique ac ipsum. Donec interdum pretium dolor at tincidunt. Ut tortor sem, condimentum a molestie eget, venenatis venenatis felis. Praesent eleifend urna est. Nam tristique diam in sagittis pellentesque.</td>
+            <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</td>
+        </tr>
+        -->
+      </tbody>
+    </table>
 
-  <div id="myBtnContainer">
-    <button class="btn btn-primary active" onclick="filterSelection('all')"> Все статьи</button>
-    <button class="btn btn-primary" onclick="filterSelection('дача')"> Дача</button>
-    <button class="btn btn-primary" onclick="filterSelection('здоровье')"> Здоровье</button>
-    <button class="btn btn-primary" onclick="filterSelection('лайфхаки')"> Лайфхаки</button>
-    <button class="btn btn-primary" onclick="filterSelection('новости')"> Новости</button>
-    <button class="btn btn-primary" onclick="filterSelection('тренды')"> Тренды</button>
-  </div>
+    </div>
 
-  <br/>
-
-  <ul>
-    {% for article in articles %}
-      <li class="filterDiv {{ article.type }}"><a href="{{ url_for('articles_single', pk=article.pk) }}">{{ article.title }}</a></li>
-    {% endfor %}
-  </ul>
-
-</div>
-
-</body>
+  </body>
 </html>

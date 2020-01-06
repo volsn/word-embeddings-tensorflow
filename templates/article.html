@@ -1,42 +1,60 @@
-<!doctype html>
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Статья #{{ article.id }}</title>
 
-<html lang="en">
-<head>
-<meta charset="utf-8">
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/pure-min.css" integrity="sha384-oAOxQR6DkCoMliIh8yFnu25d7Eq/PHS21PClpwjOTeU2jRSq11vu66rf90/cZr47" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Index</title>
+    <style media="screen">
+      .centered{
+        margin: 0 auto;
+        width: 80%;
+      }
 
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-</head>
+      @media screen and (min-width: 480px) {
+          .centered{
+                margin: 0 auto;
+                width: 95%;
+              }
+       }
+    </style>
 
-<body>
+  </head>
+  <body>
 
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('index') }}">Главная</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('articles_all') }}">Статьи</a>
+    <div class="pure-menu pure-menu-horizontal">
+    <ul class="pure-menu-list">
+        <li class="pure-menu-item pure-menu-selected"><a href="{{ url_for('index') }}" class="pure-menu-link">Главная</a></li>
+        <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+            <a href="{{ url_for('articles_all') }}" id="menuLink1" class="pure-menu-link">Все статьи</a>
+            <ul class="pure-menu-children">
+                <li class="pure-menu-item"><a href="{{ url_for('articles_category', category_name='Дача') }}" class="pure-menu-link">Авто</a></li>
+                <li class="pure-menu-item"><a href="{{ url_for('articles_category', category_name='Дача') }}" class="pure-menu-link">Дача</a></li>
+                <li class="pure-menu-item"><a href="{{ url_for('articles_category', category_name='Дача') }}" class="pure-menu-link">Техника</a></li>
+                <li class="pure-menu-item"><a href="{{ url_for('articles_category', category_name='Дача') }}" class="pure-menu-link">Космос</a></li>
+                <li class="pure-menu-item"><a href="{{ url_for('articles_category', category_name='Дача') }}" class="pure-menu-link">Нацизм</a></li>
+            </ul>
         </li>
       </ul>
     </div>
-  </nav>
 
-<br/>
+    <br/>
 
-<div class="container">
+    <div class="centered">
 
-  <h1>{{ article.title }}</h1>
-  <br/>
+      <h1>{{ article.header }}</h1>
+      <h3>Категория - {{ article.type }}</h3>
 
-  {{ article.text }}
+      <br/>
 
-</div>
+      <h4>Текст</h4>
+      {{ article.text }}
 
-</body>
+      <h4>Векторизованный</h4>
+      {{ article.vectorized }}
+    </div>
+
+  </body>
 </html>
