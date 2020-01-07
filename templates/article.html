@@ -30,11 +30,11 @@
         <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
             <a href="{{ url_for('articles_all') }}" id="menuLink1" class="pure-menu-link">Все статьи</a>
             <ul class="pure-menu-children">
-                <li class="pure-menu-item"><a href="{{ url_for('articles_category', category_name='Дача') }}" class="pure-menu-link">Авто</a></li>
-                <li class="pure-menu-item"><a href="{{ url_for('articles_category', category_name='Дача') }}" class="pure-menu-link">Дача</a></li>
-                <li class="pure-menu-item"><a href="{{ url_for('articles_category', category_name='Дача') }}" class="pure-menu-link">Техника</a></li>
-                <li class="pure-menu-item"><a href="{{ url_for('articles_category', category_name='Дача') }}" class="pure-menu-link">Космос</a></li>
-                <li class="pure-menu-item"><a href="{{ url_for('articles_category', category_name='Дача') }}" class="pure-menu-link">Нацизм</a></li>
+                <li class="pure-menu-item"><a href="{{ url_for('articles_category', category_name='science') }}" class="pure-menu-link">Science</a></li>
+                <li class="pure-menu-item"><a href="{{ url_for('articles_category', category_name='reader') }}" class="pure-menu-link">Reader</a></li>
+                <li class="pure-menu-item"><a href="{{ url_for('articles_category', category_name='politics') }}" class="pure-menu-link">Politics</a></li>
+                <li class="pure-menu-item"><a href="{{ url_for('articles_category', category_name='tech') }}" class="pure-menu-link">Tech</a></li>
+                <li class="pure-menu-item"><a href="{{ url_for('articles_category', category_name='health') }}" class="pure-menu-link">Health</a></li>
             </ul>
         </li>
       </ul>
@@ -44,16 +44,12 @@
 
     <div class="centered">
 
-      <h1>{{ article.header }}</h1>
-      <h3>Категория - {{ article.type }}</h3>
-
-      <br/>
+      <h1>{{ article.title }}</h1>
+      <h3>Категория - {{ article.category }}</h3>
 
       <h4>Текст</h4>
       {{ article.text }}
 
-      <h4>Векторизованный</h4>
-      {{ article.vectorized }}
     </div>
 
   </body>

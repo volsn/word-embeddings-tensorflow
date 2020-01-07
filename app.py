@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-import pandas as pd
+import json
 
 app = Flask(__name__)
 
@@ -9,51 +9,41 @@ def index():
 
 @app.route('/articles/all/')
 def articles_all():
-    dataset = pd.read_csv('dataset.csv')
-
-    articles = []
-    for i, (title, href, type, text) in dataset.iterrows():
-        articles.append({
-            'id': i,
-            'header': title,
-            'type': type,
-            'href': href,
-            'description': ' '.join(text.split('.')[:3]).replace('\n', ''),
-            'text': text
-        })
+    with open('buzzfeed.json', 'r') as f:
+        articles = json.load(f)
 
     return render_template('articles.html', articles=articles, articles_count=len(articles), category_name='Все Статьи')
 
 @app.route('/articles/cat/<category_name>')
 def articles_category(category_name=None):
-    dataset = pd.read_csv('dataset.csv')
+    with open('buzzfeed.json', 'r') as f:
+        articles = json.load(f)
 
-    articles = []
-    for i, (title, href, type, text) in dataset.iterrows():
-        if type == category_name.lower():
-            articles.append({
-                'id': i,
-                'header': title,
-                'type': type,
-                'href': href,
-                'description': text[:250],
-                'text': text
+    output = []
+    for article in articles:
+        if article['category'] == category_name.lower():
+            output.append({
+                'id': article['id'],
+                'title': article['title'],
+                'link': article['link'],
+                'summary': article['summary'],
+                'text': article['text']
             })
 
-    return render_template('articles.html', articles=articles, articles_count=len(articles), category_name=category_name.capitalize())
+    return render_template('articles.html', articles=output, articles_count=len(output), category_name=category_name.capitalize())
 
-@app.route('/articles/<id>/')
+@app.route('/articles/single/<id>/')
 def articles_single(id=None):
-    dataset = pd.read_csv('dataset.csv')
-    article = {
-        'id': id,
-        'title': dataset.iloc[int(id)].title,
-        'text': dataset.iloc[int(id)].text,
-    }
+    with open('buzzfeed.json', 'r') as f:
+        articles = json.load(f)
 
-    return render_template('article.html', article=article)
+    for article in articles:
+        if article['id'] == int(id):
+            return render_template('article.html', article=article)
 
-@app.route('/output/', methods=['GET', 'POST'])
+    return render_template('404.html', id=id)
+
+@app.route('/classifier/', methods=['POST'])
 def output():
-     text = request.form['TextArea']
-     return render_template('output.html', output=text)
+    text = request.form['text-input']
+    return render_template('classifier.html', output=text)

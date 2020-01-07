@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Статьи - {{ category_name }}</title>
+    <title>404</title>
 
     <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/pure-min.css" integrity="sha384-oAOxQR6DkCoMliIh8yFnu25d7Eq/PHS21PClpwjOTeU2jRSq11vu66rf90/cZr47" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,6 +20,7 @@
               }
        }
     </style>
+
   </head>
   <body>
 
@@ -42,39 +43,8 @@
     <br/>
 
     <div class="centered">
-      <h3>Всего статей в выбранной категории - {{ articles_count }}</h3>
 
-      <table class="pure-table pure-table-bordered">
-      <thead>
-          <tr>
-              <th>id</th>
-              <th width="20%">Заголовок</th>
-              <th>Описание</th>
-              <th width="20%">Ссылка</th>
-          </tr>
-      </thead>
-
-      <tbody>
-
-        {% for article in articles %}
-          <tr>
-              <td>{{ article.id }}</td>
-              <td>{{ article.title }}</td>
-              <td>{{ article.summary }}</td>
-              <td><a href="{{ url_for('articles_single', id=article.id) }}">{{ article.link }}</a></td>
-          </tr>
-        {% endfor %}
-
-        <!--
-        <tr>
-            <td>1</td>
-            <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</td>
-            <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ut orci porta, egestas lorem a, blandit orci. Nunc laoreet maximus tellus non ultricies. Nunc suscipit aliquam sollicitudin. Nam eu nisl accumsan, volutpat sapien id, imperdiet nisi. Curabitur vehicula mollis gravida. Donec est enim, condimentum et convallis vel, tristique ac ipsum. Donec interdum pretium dolor at tincidunt. Ut tortor sem, condimentum a molestie eget, venenatis venenatis felis. Praesent eleifend urna est. Nam tristique diam in sagittis pellentesque.</td>
-            <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</td>
-        </tr>
-        -->
-      </tbody>
-    </table>
+      <h1>Ошибка! Статьи под номером #{{ id }} не существует</h1>
 
     </div>
 
