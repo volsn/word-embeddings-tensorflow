@@ -15,7 +15,7 @@ SPIDER_MODULES = ['buzzfeed.spiders']
 NEWSPIDER_MODULE = 'buzzfeed.spiders'
 
 LOG_ENABLED = True
-LOG_LEVEL = 'WARNING'
+LOG_LEVEL = 'ERROR'
 LOG_FILE = 'logfile.log'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
