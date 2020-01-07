@@ -76,16 +76,15 @@ def output():
 
     vector = []
     for token in sequences[0]:
-        print(token)
         vector.extend(
             embeddings_matrix[token]
         )
 
     classifier = load_model('model.h5')
-    print('Output', classifier.predict_classes(data))
+    CLASSES = ['health', 'politics', 'reader', 'science', 'tech']
 
     article = {
-        'category': 'foo',
+        'category': CLASSES[classifier.predict_classes(data)[0]],
         'text': input,
         'vector': vector,
     }
