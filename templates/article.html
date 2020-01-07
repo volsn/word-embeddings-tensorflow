@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Статья #{{ article.id }}</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/pure-min.css" integrity="sha384-oAOxQR6DkCoMliIh8yFnu25d7Eq/PHS21PClpwjOTeU2jRSq11vu66rf90/cZr47" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style media="screen">
+      .centered{
+        margin: 0 auto;
+        width: 80%;
+      }
+
+      @media screen and (min-width: 480px) {
+          .centered{
+                margin: 0 auto;
+                width: 95%;
+              }
+       }
+    </style>
+
+  </head>
+  <body>
+
+    <div class="pure-menu pure-menu-horizontal">
+    <ul class="pure-menu-list">
+        <li class="pure-menu-item pure-menu-selected"><a href="{{ url_for('index') }}" class="pure-menu-link">Главная</a></li>
+        <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+            <a href="{{ url_for('articles_all') }}" id="menuLink1" class="pure-menu-link">Все статьи</a>
+            <ul class="pure-menu-children">
+                <li class="pure-menu-item"><a href="{{ url_for('articles_category', category_name='science') }}" class="pure-menu-link">Science</a></li>
+                <li class="pure-menu-item"><a href="{{ url_for('articles_category', category_name='reader') }}" class="pure-menu-link">Reader</a></li>
+                <li class="pure-menu-item"><a href="{{ url_for('articles_category', category_name='politics') }}" class="pure-menu-link">Politics</a></li>
+                <li class="pure-menu-item"><a href="{{ url_for('articles_category', category_name='tech') }}" class="pure-menu-link">Tech</a></li>
+                <li class="pure-menu-item"><a href="{{ url_for('articles_category', category_name='health') }}" class="pure-menu-link">Health</a></li>
+            </ul>
+        </li>
+      </ul>
+    </div>
+
+    <br/>
+
+    <div class="centered">
+
+      <h1>{{ article.title }}</h1>
+      <h3>Категория - {{ article.category }}</h3>
+
+      <h4>Текст</h4>
+      {{ article.text }}
+
+    </div>
+
+  </body>
+</html>
