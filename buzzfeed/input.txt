@@ -1,0 +1,6 @@
+https://www.buzzfeed.com/health.xml
+https://www.buzzfeed.com/tech.xml
+https://www.buzzfeed.com/science.xml
+https://www.buzzfeed.com/politics.xml
+https://www.buzzfeed.com/reader.xml
+
