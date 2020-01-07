@@ -2,19 +2,22 @@ from flask import Flask, render_template, request
 import json
 import pickle
 
-from keras.models import load_model
-from keras.preprocessing.text import Tokenizer
-from keras.preprocessing.sequence import pad_sequences
+from tensorflow import keras
+from tensorflow.keras.models import load_model
+from tensorflow.keras.preprocessing.text import Tokenizer
+from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 
-from keras.preprocessing.text import Tokenizer, one_hot
-from keras.preprocessing.sequence import pad_sequences
-from keras import layers, Sequential
-from keras.utils import to_categorical
-from keras.initializers import Constant
+'''
+from tensorflow.keras.preprocessing.text import Tokenizer, one_hot
+from tensorflow.keras.preprocessing.sequence import pad_sequences
+from tensorflow.keras import layers, Sequential
+from tensorflow.keras.utils import to_categorical
+from tensorflow.keras.initializers import Constant
+'''
 
 app = Flask(__name__)
 
@@ -68,7 +71,23 @@ def output():
     MAX_SEQUENCE_LENGTH = 200
     data = pad_sequences(sequences, maxlen=MAX_SEQUENCE_LENGTH)
 
-    classifier = load_model('model.h5')
-    classifier.predict(data)
+    with open('embeddings.pickle', 'rb') as f:
+        embeddings_matrix = pickle.load(f)
 
-    return render_template('classifier.html', output=input)
+    vector = []
+    for token in sequences[0]:
+        print(token)
+        vector.extend(
+            embeddings_matrix[token]
+        )
+
+    classifier = load_model('model.h5')
+    print('Output', classifier.predict_classes(data))
+
+    article = {
+        'category': 'foo',
+        'text': input,
+        'vector': vector,
+    }
+
+    return render_template('classifier.html', article=article)
