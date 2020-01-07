@@ -1,5 +1,20 @@
 from flask import Flask, render_template, request
 import json
+import pickle
+
+from keras.models import load_model
+from keras.preprocessing.text import Tokenizer
+from keras.preprocessing.sequence import pad_sequences
+
+
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
+
+from keras.preprocessing.text import Tokenizer, one_hot
+from keras.preprocessing.sequence import pad_sequences
+from keras import layers, Sequential
+from keras.utils import to_categorical
+from keras.initializers import Constant
 
 app = Flask(__name__)
 
@@ -45,5 +60,15 @@ def articles_single(id=None):
 
 @app.route('/classifier/', methods=['POST'])
 def output():
-    text = request.form['text-input']
-    return render_template('classifier.html', output=text)
+    input = request.form['text-input']
+    with open('tokenizer.pickle', 'rb') as f:
+        tokenizer = pickle.load(f)
+
+    sequences = tokenizer.texts_to_sequences([input])
+    MAX_SEQUENCE_LENGTH = 200
+    data = pad_sequences(sequences, maxlen=MAX_SEQUENCE_LENGTH)
+
+    classifier = load_model('model.h5')
+    classifier.predict(data)
+
+    return render_template('classifier.html', output=input)
