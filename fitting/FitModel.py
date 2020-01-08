@@ -102,4 +102,4 @@ model.fit(X_train, y_train,
 loss, acc = model.evaluate(X_test, y_test)
 print('Accuracy on test dataset is', acc)
 
-model.save('model.h5')
+model.save('classifier.hdf5')

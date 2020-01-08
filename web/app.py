@@ -74,7 +74,7 @@ def output():
             embeddings_matrix[token]
         )
 
-    classifier = load_model('model.h5')
+    classifier = load_model('classifier.hdf5')
     CLASSES = ['health', 'politics', 'reader', 'science', 'tech']
 
     article = {
