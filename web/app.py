@@ -39,6 +39,9 @@ def articles_category(category_name=None):
                 'text': article['text']
             })
 
+    if len(output) == 0:
+        return render_template('404.html', error='Ошибка! Нет статей относящийся к категории {}'.format(category_name))
+
     return render_template('articles.html', articles=output, articles_count=len(output), category_name=category_name.capitalize())
 
 @app.route('/articles/single/<id>/')
@@ -50,7 +53,7 @@ def articles_single(id=None):
         if article['id'] == int(id):
             return render_template('article.html', article=article)
 
-    return render_template('404.html', id=id)
+    return render_template('404.html', error='Ошибка! Статьи под номером #{} не существует'.format(id))
 
 @app.route('/classifier/', methods=['POST'])
 def output():
