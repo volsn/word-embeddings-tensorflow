@@ -26,4 +26,15 @@ https://www.buzzfeed.com/tech.xml
 * model.h5 - классификатор, сохраненный в формате HDF5
 * FitModel.py - скрипт для обучения модели
 
+## Развертывание приожения
+Запуск просиходит при помощи следующих комманд
+```bash
+Linux/MacOS:
+export FLASK_APP=app.py
+flask run
+
+Windows:
+python app.py
+```
+
 
