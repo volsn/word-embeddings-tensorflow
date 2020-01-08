@@ -1,0 +1,11 @@
+flask
+scrapy
+scikit-learn
+tensorflow
+numpy
+nltk
+keras
+bs4
+colorama
+feedparser
+
