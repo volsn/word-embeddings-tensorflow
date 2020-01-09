@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 import json
 import pickle
+import unicodedata as ud
 
 from tensorflow import keras
 from tensorflow.keras.models import load_model
@@ -40,7 +41,7 @@ def articles_category(category_name=None):
             })
 
     if len(output) == 0:
-        return render_template('404.html', error='Ошибка! Нет статей относящийся к категории {}'.format(category_name))
+        return render_template('error.html', error_code=404, error='Ошибка! Нет статей относящийся к категории {}'.format(category_name))
 
     return render_template('articles.html', articles=output, articles_count=len(output), category_name=category_name.capitalize())
 
@@ -53,11 +54,17 @@ def articles_single(id=None):
         if article['id'] == int(id):
             return render_template('article.html', article=article)
 
-    return render_template('404.html', error='Ошибка! Статьи под номером #{} не существует'.format(id))
+    return render_template('error.html', error_code=404, error='Ошибка! Статьи под номером #{} не существует'.format(id))
 
 @app.route('/classifier/', methods=['POST'])
 def output():
-    input = request.form['text-input']
+    input = str(request.form['text-input'])
+    if not only_roman_chars(input):
+        return render_template('error.html', error_code=500, error='Текст не содержит слов на английском языке')
+
+    if len(input) == 0:
+        return render_template('error.html', error_code=500, error='Вы не ввели текст')
+
     with open('tokenizer.pickle', 'rb') as f:
         tokenizer = pickle.load(f)
 
@@ -84,3 +91,19 @@ def output():
     }
 
     return render_template('classifier.html', article=article)
+
+
+"""
+Проверка на содержание нероманских букв
+"""
+latin_letters={}
+
+def is_latin(uchr):
+    try: return latin_letters[uchr]
+    except KeyError:
+         return latin_letters.setdefault(uchr, 'LATIN' in ud.name(uchr))
+
+def only_roman_chars(unistr):
+    return all(is_latin(uchr)
+           for uchr in unistr
+           if uchr.isalpha())
