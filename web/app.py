@@ -64,7 +64,7 @@ def output():
 
     if len(input) == 0:
         return render_template('error.html', error_code=500, error='Вы не ввели текст')
-
+        
     with open('tokenizer.pickle', 'rb') as f:
         tokenizer = pickle.load(f)
 
@@ -107,3 +107,6 @@ def only_roman_chars(unistr):
     return all(is_latin(uchr)
            for uchr in unistr
            if uchr.isalpha())
+
+app.run(host='::')
+
